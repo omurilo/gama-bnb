@@ -1,0 +1,24 @@
+aside.logo {
+    background-color: $cor-bg-clara;
+}
+
+aside.logo a {
+    display: block;
+    padding: 10px 15px;
+}
+
+aside.logo img {
+    width: calc(100% - 25px);
+}
+
+@media(max-width: $largura-sm-max) {
+    aside.logo {
+        display: flex;
+        justify-content: center;
+    }
+
+    aside.logo img {
+        padding: 0px 15px;
+        width: $largura-barra-lateral;
+    }
+}
