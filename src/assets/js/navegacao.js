@@ -52,21 +52,21 @@
       const markup = card
         .replace(/\{\{ id \}\}/gi, local.id)
         .replace(/\{\{ imageSrc \}\}/gi, local.photo)
-        .replace(/\{\{ imageAlt \}\}/gi, local.name)
+        .replace(/\{\{ imageAlt \}\}/gi, transformarPrimeiraLetraMaiscula(local.name))
         .replace(/\{\{ label \}\}/gi, local.property_type)
-        .replace(/\{\{ title \}\}/gi, local.name)
+        .replace(/\{\{ title \}\}/gi, transformarPrimeiraLetraMaiscula(local.name))
         .replace(/\{\{ price \}\}/gi, `${local.priceCurrency}${local.price}`);
 
       container.innerHTML = `${container.innerHTML}${markup}`;
     });
   }
 
-  async function setLocations() {
+  async function setarLocalizacao() {
     if (!location.hash || location.hash === "#/inicio") {
       const results = [];
 
       const callback = async (index) => {
-        const country = await getGeoCode(api[index].lat, api[index].lng);
+        const country = await pegarGeoLocalizacao(api[index].lat, api[index].lng);
         api[index].country = country;
         const card = document.getElementById(`${api[index].id}`);
         card.getElementsByClassName(
@@ -82,7 +82,7 @@
     }
   }
 
-  async function getGeoCode(lat, long) {
+  async function pegarGeoLocalizacao(lat, long) {
     const url = `https://weather.ls.hereapi.com/weather/1.0/report.json?product=observation&latitude=${parseFloat(
       lat
     )}&longitude=${parseFloat(
@@ -93,6 +93,10 @@
     return result.observations["location"][0]["country"];
   }
 
+  function transformarPrimeiraLetraMaiscula(text) {
+    return text.toLowerCase().replace(/^\w/gi, primeiraLetra => primeiraLetra.toUpperCase());
+  }
+
   window.onhashchange = (e) => {
     e.preventDefault();
     navegarViaAjax(location.hash);
@@ -101,6 +105,6 @@
   window.onload = async () => {
     configurarLinks();
     await navegacaoInicial();
-    await setLocations();
+    await setarLocalizacao();
   }
 })();
