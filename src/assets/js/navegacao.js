@@ -62,7 +62,37 @@
     });
   }
 
-  
+  async function setLocations() {
+    if (!location.hash || location.hash === "#/inicio") {
+      const results = [];
+
+      const callback = async (index) => {
+        const country = await getGeoCode(api[index].lat, api[index].lng);
+        api[index].country = country;
+        const card = document.getElementById(`${api[index].id}`);
+        card.getElementsByClassName(
+          "label"
+        )[0].textContent = `${api[index].property_type}: ${api[index].country}`;
+      };
+
+      for (let index = 0; index < api.length; index += 1) {
+        results.push(callback(index));
+      }
+
+      await Promise.all(results);
+    }
+  }
+
+  async function getGeoCode(lat, long) {
+    const url = `https://weather.ls.hereapi.com/weather/1.0/report.json?product=observation&latitude=${parseFloat(
+      lat
+    )}&longitude=${parseFloat(
+      long
+    )}&oneobservation=true&apiKey=Z8XI6rnlOwnA9AzyT2_MS_bT5GcrPiVJABQzRehLxW4`;
+    const result = await (await fetch(url)).json();
+
+    return result.observations["location"][0]["country"];
+  }
 
   window.onhashchange = (e) => {
     e.preventDefault();
@@ -71,4 +101,5 @@
 
   configurarLinks();
   await navegacaoInicial();
+  await setLocations();
 })();
