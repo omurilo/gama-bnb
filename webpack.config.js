@@ -2,13 +2,14 @@ const modoDev = process.env.NODE_ENV !== "production";
 const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
-module.exports = {
+const webpackConfig = {
+  mode: modoDev ? "develpment" : "production",
   entry: "./src/principal.js",
   devServer: {
     contentBase: "./dist",
@@ -16,14 +17,7 @@ module.exports = {
     open: true,
   },
   optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: true,
-      }),
-      modoDev && new OptimizeCSSAssetsPlugin({}),
-    ],
+    minimizer: [new MinifyPlugin({})],
   },
   output: {
     filename: "assets/js/app.min.js",
@@ -37,6 +31,7 @@ module.exports = {
     new HtmlWebpackPlugin({ template: "./src/index.html", minify: !modoDev }),
     new CopyWebpackPlugin([
       { context: "src/", from: "**/*.html", to: "[path][name].[ext]" },
+      { context: "src/", from: "**/*.json", to: "[path][name].[ext]" },
     ]),
     new MiniCssExtractPlugin({ filename: "assets/css/app.min.css" }),
   ],
@@ -92,3 +87,8 @@ module.exports = {
     ],
   },
 };
+
+modoDev &&
+  webpackConfig.optimization.minimizer.push(new OptimizeCSSAssetsPlugin({}));
+
+module.exports = webpackConfig;

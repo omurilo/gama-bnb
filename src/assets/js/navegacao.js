@@ -1,5 +1,7 @@
 (async function () {
-  const api = require("../data/api.json");
+  const api = await (await fetch("assets/data/api.json")).json();
+
+  console.log(api);
 
   function marcarLinkComoSelecionado(hash) {
     const links = document.querySelectorAll(`[wm-link]`);
@@ -15,12 +17,10 @@
     const destino = document.querySelector("[wm-link-destino]");
 
     const url = `paginas/${hash.substring(1)}.html`;
-    fetch(url)
-      .then((resp) => resp.text())
-      .then((html) => {
-        destino.innerHTML = html;
-        marcarLinkComoSelecionado(hash);
-      });
+    const html = await (await fetch(url)).text();
+
+    destino.innerHTML = html;
+    marcarLinkComoSelecionado(hash);
 
     if (!location.hash || location.hash === "#/inicio") {
       await popularInicio();
@@ -35,10 +35,10 @@
 
   async function navegacaoInicial() {
     if (location.hash) {
-      navegarViaAjax(location.hash);
+      await navegarViaAjax(location.hash);
     } else {
       const primeiroLink = document.querySelector("[wm-link]");
-      navegarViaAjax(primeiroLink.hash);
+      await navegarViaAjax(primeiroLink.hash);
     }
   }
 
@@ -57,7 +57,6 @@
         .replace(/\{\{ title \}\}/gi, local.name)
         .replace(/\{\{ price \}\}/gi, `${local.priceCurrency}${local.price}`);
 
-      // container.appendChild(markup);
       container.innerHTML = `${container.innerHTML}${markup}`;
     });
   }
@@ -99,7 +98,9 @@
     navegarViaAjax(location.hash);
   };
 
-  configurarLinks();
-  await navegacaoInicial();
-  await setLocations();
+  window.onload = async () => {
+    configurarLinks();
+    await navegacaoInicial();
+    await setLocations();
+  }
 })();
