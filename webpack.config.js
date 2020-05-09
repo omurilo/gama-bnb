@@ -32,6 +32,7 @@ const webpackConfig = {
     new CopyWebpackPlugin([
       { context: "src/", from: "**/*.html", to: "[path][name].[ext]" },
       { context: "src/", from: "**/*.json", to: "[path][name].[ext]" },
+      { context: "src/assets/icons", from: "**/*.*", to: "assets/icons/[name].[ext]" },
     ]),
     new MiniCssExtractPlugin({ filename: "assets/css/app.min.css" }),
   ],
