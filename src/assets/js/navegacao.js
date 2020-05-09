@@ -79,7 +79,7 @@
     }
 
     if (locais.length === 0) {
-      container.innerHTML = '<h1 class="erro">Nenhum local encontrado...</h1>';
+      container.innerHTML = '<h1 class="erro">Desculpe, não foi encontrado nenhum local com o termo utilizado, tente novamente!</h1>';
     }
 
     locais.map((local) => {
