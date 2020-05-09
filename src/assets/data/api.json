@@ -6,8 +6,8 @@
     "name": "Apartment in Son Parc, wonderful views",
     "price": 433,
     "priceCurrency": "R$",
-    "lat": 31.510409,
-    "lng": 74.3425194
+    "lat": 40.02,
+    "lng": 4.162
   },
   {
     "id": 2,
@@ -16,8 +16,8 @@
     "name": "APARTAMENTO IDEAL PAREJAS EN SON PARC",
     "price": 368,
     "priceCurrency": "R$",
-    "lat": 31.501371,
-    "lng": 74.3202626
+    "lat": 40.02,
+    "lng": 4.162
   },
   {
     "id": 3,
@@ -26,8 +26,8 @@
     "name": "Casa Charmosa Bem Localizada",
     "price": 70,
     "priceCurrency": "R$",
-    "lat": 31.48629,
-    "lng": 74.3352363
+    "lat": -22.77402,
+    "lng": -41.91604
   },
   {
     "id": 4,
@@ -36,8 +36,8 @@
     "name": "Quartos pertinho do Anhembi!",
     "price": 189,
     "priceCurrency": "R$",
-    "lat": 31.4754377,
-    "lng": 74.3417156
+    "lat": -23.51289,
+    "lng": -46.65698
   },
   {
     "id": 5,
@@ -46,8 +46,8 @@
     "name": "Charming Chalet, private pool, free AC & WiFi",
     "price": 737,
     "priceCurrency": "R$",
-    "lat": 31.521754,
-    "lng": 74.3467638
+    "lat": 40.02522,
+    "lng": 4.16451
   },
   {
     "id": 6,
@@ -56,8 +56,8 @@
     "name": "Menorca Green Park C7",
     "price": 520,
     "priceCurrency": "R$",
-    "lat": 31.52074,
-    "lng": 74.3244096
+    "lat": -12.2168,
+    "lng": 28.6135
   },
   {
     "id": 7,
@@ -66,8 +66,8 @@
     "name": "Villa Monty",
     "price": 1291,
     "priceCurrency": "R$",
-    "lat": 31.526333,
-    "lng": 74.3311503
+    "lat": 40.01839,
+    "lng": 4.16705
   },
   {
     "id": 8,
@@ -76,8 +76,8 @@
     "name": "Bonito penthouse cerca del aeropuerto CDMX",
     "price": 73,
     "priceCurrency": "R$",
-    "lat": 31.529289,
-    "lng": 74.3293908
+    "lat": 19.40317,
+    "lng": -99.09806
   },
   {
     "id": 9,
@@ -86,8 +86,8 @@
     "name": "The Backpacker's Retreat - Balcony",
     "price": 51,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": -16.6974198,
+    "lng": -49.2334694
   },
   {
     "id": 10,
@@ -96,8 +96,8 @@
     "name": "10min airport, Foro Sol, Palacio de los Deportes",
     "price": 81,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": 19.40106,
+    "lng": -99.10161
   },
   {
     "id": 11,
@@ -106,8 +106,8 @@
     "name": "Acogedor depto cerca aeropuerto, foro Sol, Centro",
     "price": 77,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": 19.40106,
+    "lng": -99.10161
   },
   {
     "id": 12,
@@ -116,8 +116,8 @@
     "name": "Sol Nascente da Prainha",
     "price": 200,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": -22.96156,
+    "lng": -42.02463
   },
   {
     "id": 13,
@@ -126,8 +126,8 @@
     "name": "Ap novo com wi-fi na Prainha - Arraial do Cabo",
     "price": 145,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": -22.96156,
+    "lng": -42.02463
   },
   {
     "id": 14,
@@ -136,8 +136,8 @@
     "name": "Suite @ Subway Trianon Masp",
     "price": 69,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": -23.56511,
+    "lng": -46.65417
   },
   {
     "id": 15,
@@ -146,8 +146,8 @@
     "name": "Quarto Arouche Centro SP Ótima Localização",
     "price": 45,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": -23.53869,
+    "lng": -46.64472
   },
   {
     "id": 16,
@@ -156,8 +156,8 @@
     "name": "Quarto 1 - Parque da Aclimacão",
     "price": 55,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": -23.57094,
+    "lng": -46.6273
   },
   {
     "id": 17,
@@ -166,8 +166,8 @@
     "name": "Existe amor em SP",
     "price": 55,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": -23.54743,
+    "lng": -46.64459
   },
   {
     "id": 18,
@@ -176,8 +176,8 @@
     "name": "Confortável quarto de casal px. à Av. Paulista",
     "price": 80,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": -23.5537,
+    "lng": -46.65405
   },
   {
     "id": 19,
@@ -186,8 +186,8 @@
     "name": "Room Higienopolis São Paulo",
     "price": 80,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": -23.55189,
+    "lng": -46.65788
   },
   {
     "id": 20,
@@ -196,8 +196,8 @@
     "name": "Confortável quarto solteiro px. à Av. Paulista",
     "price": 80,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": -23.553,
+    "lng": -46.65525
   },
   {
     "id": 21,
@@ -206,8 +206,8 @@
     "name": "Modern, Cozy + all you need! Muito aconchegante!!",
     "price": 66,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": -23.63198,
+    "lng": -46.6675
   },
   {
     "id": 22,
@@ -216,8 +216,8 @@
     "name": "Recanto Rosana - Quartos e estrutura completa",
     "price": 39,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": -23.14116,
+    "lng": -46.71412
   },
   {
     "id": 23,
@@ -226,8 +226,8 @@
     "name": "Suite na Montanha - Refúgio do Artista",
     "price": 77,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": -23.14121,
+    "lng": -46.535
   },
   {
     "id": 24,
@@ -236,7 +236,7 @@
     "name": "Sítio Costa do Sol",
     "price": 100,
     "priceCurrency": "R$",
-    "lat": 0,
-    "lng": 0
+    "lat": -23.75861,
+    "lng": -45.90144
   }
 ]
