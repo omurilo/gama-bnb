@@ -1,15 +1,19 @@
 (async function () {
   const api = await (await fetch("assets/data/api.json")).json();
 
-  function filtrarLocais({ page, max, filter }) {
+  let pagina = 1;
+  const maximo = 8;
+  const totalItens = api.length;
+
+  function filtrarLocais({ page = pagina, max = maximo, filter }) {
     let locais = [];
+
     if (filter) {
       api.filter((local) => {
         if (
-          local.property_type.toLowerCase().indexOf(filter.toLowerCase()) !==
-            -1 ||
+          local.property_type.toLowerCase().includes(filter.toLowerCase()) ||
           (local.country &&
-            local.country.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
+            local.country.toLowerCase().includes(filter.toLowerCase()))
         ) {
           locais.push(local);
         }
@@ -79,7 +83,8 @@
     }
 
     if (locais.length === 0) {
-      container.innerHTML = '<h1 class="erro">Desculpe, não foi encontrado nenhum local com o termo utilizado, tente novamente!</h1>';
+      container.innerHTML =
+        '<h1 class="erro">Desculpe, não foi encontrado nenhum local com o termo utilizado, tente novamente!</h1>';
     }
 
     locais.map((local) => {
@@ -109,21 +114,21 @@
   async function setarLocalizacao() {
     if (!location.hash || location.hash === "#/inicio") {
       const results = [];
-      const locais = filtrarLocais({});
 
       const callback = async (index) => {
         const country = await pegarGeoLocalizacao(
-          locais[index].lat,
-          locais[index].lng
+          api[index].lat,
+          api[index].lng
         );
-        locais[index].country = country;
-        const card = document.getElementById(`${locais[index].id}`);
-        card.getElementsByClassName(
-          "label"
-        )[0].textContent = `${locais[index].property_type}: ${locais[index].country}`;
+        api[index].country = country;
+        const card = document.getElementById(`${api[index].id}`);
+        if (card) {
+          const label = card.getElementsByClassName("label")[0];
+          label.textContent = `${api[index].property_type}: ${api[index].country}`;
+        }
       };
 
-      for (let index = 0; index < locais.length; index += 1) {
+      for (let index = 0; index < api.length; index += 1) {
         results.push(callback(index));
       }
 
@@ -151,13 +156,95 @@
   function addListenerFiltrar() {
     const searchInput = document.getElementById("search");
     searchInput.removeAttribute("disabled");
-    searchInput.setAttribute('placeholder', 'Busque por Tipo ou País, ex: `Apartamento`');
+    searchInput.setAttribute(
+      "placeholder",
+      "Busque por Tipo ou País, ex: `Apartamento`"
+    );
 
     searchInput.addEventListener("keyup", () => {
       const locais = filtrarLocais({ filter: searchInput.value });
 
       popularInicio(locais);
     });
+  }
+
+  function selecionaItemPaginacao(numero) {
+    const proximoElemento = document.querySelector(
+      `[data-page-number="${numero}"]`
+    );
+    const elementoAtual = document.querySelector(".pagina-selecionada");
+    elementoAtual.classList.remove("pagina-selecionada");
+    proximoElemento.classList.add("pagina-selecionada");
+  }
+
+  function irParaPagina(pagina) {
+    const container = document.querySelector(".linha.container");
+    const paginaAtual = parseInt(container.getAttribute("data-page"), 10);
+    if (pagina !== paginaAtual) {
+      container.setAttribute("data-page", pagina);
+      const locais = filtrarLocais({ page: pagina });
+      popularInicio(locais);
+      selecionaItemPaginacao(pagina);
+    }
+  }
+
+  /**
+   * Navega entre as páginas (próxima página, página anterior)
+   * @param {number} direcao - (-1) ou (1), utilizado na soma ou subtração da página atual
+   *
+   */
+
+  function navegarPagina(direcao) {
+    const container = document.querySelector(".linha.container");
+    const paginaAtual = parseInt(container.getAttribute("data-page"), 10);
+    const numeroDePaginas = totalItens / maximo;
+
+    const pagina = paginaAtual + direcao;
+
+    if (pagina > 0 && pagina < numeroDePaginas + 1) {
+      const locais = filtrarLocais({ page: pagina });
+      popularInicio(locais);
+
+      selecionaItemPaginacao(pagina);
+
+      container.setAttribute("data-page", pagina);
+    }
+  }
+
+  function adicionarNavegacao() {
+    const numeroDePaginas = totalItens / maximo;
+    const paginaAtual = parseInt(
+      document.querySelector(".linha.container").getAttribute("data-page"),
+      10
+    );
+
+    const paginacaoContainer = document.querySelector(".linha.paginacao");
+
+    const lista = document.createElement("ul");
+    const anterior = document.createElement("li");
+    anterior.addEventListener("click", () => navegarPagina(-1));
+    anterior.classList.add("pagina-anterior");
+    const proximo = document.createElement("li");
+    proximo.addEventListener("click", () => navegarPagina(1));
+    proximo.classList.add("pagina-proximo");
+
+    lista.appendChild(anterior);
+
+    for (let item = 1; item < numeroDePaginas + 1; item += 1) {
+      const pagina = document.createElement("li");
+      pagina.addEventListener("click", () => irParaPagina(item));
+      pagina.setAttribute("data-page-number", item);
+      pagina.classList.add("pagina-navegar");
+      if (paginaAtual === item) {
+        pagina.classList.add("pagina-selecionada");
+      }
+
+      lista.appendChild(pagina);
+    }
+
+    lista.appendChild(proximo);
+
+    paginacaoContainer.appendChild(lista);
   }
 
   window.onhashchange = (event) => {
@@ -170,5 +257,6 @@
     await navegacaoInicial();
     await setarLocalizacao();
     addListenerFiltrar();
+    adicionarNavegacao();
   };
 })();

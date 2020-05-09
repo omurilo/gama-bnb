@@ -1,0 +1,49 @@
+.paginacao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paginacao ul li{
+  display: inline;
+  padding: 15px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.paginacao ul li:hover {
+  background: $gradiente-1;
+  color: $cor-branca;
+}
+
+.paginacao .pagina-anterior {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.paginacao .pagina-anterior::after {
+  content: "<<";
+}
+
+.paginacao .pagina-proximo {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-left: 0;
+}
+
+.paginacao .pagina-proximo::after {
+  content: ">>";
+}
+
+.paginacao .pagina-navegar::after {
+  content: attr(data-page-number);
+}
+
+.paginacao .pagina-navegar {
+  border-left: 0;
+}
+
+.paginacao .pagina-selecionada{
+  background: $gradiente-3;
+  color: $cor-branca;
+}
