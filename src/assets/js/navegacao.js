@@ -1,7 +1,30 @@
 (async function () {
   const api = await (await fetch("assets/data/api.json")).json();
 
-  console.log(api);
+  function filtrarLocais({ page, max, filter }) {
+    let locais = [];
+    if (filter) {
+      api.filter((local) => {
+        if (
+          local.property_type.toLowerCase().indexOf(filter.toLowerCase()) !==
+            -1 ||
+          (local.country &&
+            local.country.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
+        ) {
+          locais.push(local);
+        }
+        return true;
+      });
+    } else if (page && max) {
+      for (let index = 0; index < max; index += 1) {
+        locais.push(api[(page - 1) * max + index]);
+      }
+    } else {
+      locais = api;
+    }
+
+    return locais;
+  }
 
   function marcarLinkComoSelecionado(hash) {
     const links = document.querySelectorAll(`[wm-link]`);
@@ -42,19 +65,41 @@
     }
   }
 
-  async function popularInicio() {
+  async function popularInicio(data) {
     const url = "paginas/card.html";
     const card = await (await fetch(url)).text();
 
     const container = document.querySelector(".linha.container");
 
-    api.map((local) => {
+    if (data) {
+      locais = data;
+      container.innerHTML = "";
+    } else {
+      locais = filtrarLocais({});
+    }
+
+    if (locais.length === 0) {
+      container.innerHTML = '<h1 class="erro">Nenhum local encontrado...</h1>';
+    }
+
+    locais.map((local) => {
       const markup = card
         .replace(/\{\{ id \}\}/gi, local.id)
         .replace(/\{\{ imageSrc \}\}/gi, local.photo)
-        .replace(/\{\{ imageAlt \}\}/gi, transformarPrimeiraLetraMaiscula(local.name))
-        .replace(/\{\{ label \}\}/gi, local.property_type)
-        .replace(/\{\{ title \}\}/gi, transformarPrimeiraLetraMaiscula(local.name))
+        .replace(
+          /\{\{ imageAlt \}\}/gi,
+          transformarPrimeiraLetraMaiscula(local.name)
+        )
+        .replace(
+          /\{\{ label \}\}/gi,
+          local.country
+            ? `${local.property_type}: ${local.country}`
+            : local.property_type
+        )
+        .replace(
+          /\{\{ title \}\}/gi,
+          transformarPrimeiraLetraMaiscula(local.name)
+        )
         .replace(/\{\{ price \}\}/gi, `${local.priceCurrency}${local.price}`);
 
       container.innerHTML = `${container.innerHTML}${markup}`;
@@ -64,17 +109,21 @@
   async function setarLocalizacao() {
     if (!location.hash || location.hash === "#/inicio") {
       const results = [];
+      const locais = filtrarLocais({});
 
       const callback = async (index) => {
-        const country = await pegarGeoLocalizacao(api[index].lat, api[index].lng);
-        api[index].country = country;
-        const card = document.getElementById(`${api[index].id}`);
+        const country = await pegarGeoLocalizacao(
+          locais[index].lat,
+          locais[index].lng
+        );
+        locais[index].country = country;
+        const card = document.getElementById(`${locais[index].id}`);
         card.getElementsByClassName(
           "label"
-        )[0].textContent = `${api[index].property_type}: ${api[index].country}`;
+        )[0].textContent = `${locais[index].property_type}: ${locais[index].country}`;
       };
 
-      for (let index = 0; index < api.length; index += 1) {
+      for (let index = 0; index < locais.length; index += 1) {
         results.push(callback(index));
       }
 
@@ -94,11 +143,25 @@
   }
 
   function transformarPrimeiraLetraMaiscula(text) {
-    return text.toLowerCase().replace(/^\w/gi, primeiraLetra => primeiraLetra.toUpperCase());
+    return text
+      .toLowerCase()
+      .replace(/^\w/gi, (primeiraLetra) => primeiraLetra.toUpperCase());
   }
 
-  window.onhashchange = (e) => {
-    e.preventDefault();
+  function addListenerFiltrar() {
+    const searchInput = document.getElementById("search");
+    searchInput.removeAttribute("disabled");
+    searchInput.setAttribute('placeholder', 'Busque por Tipo ou País, ex: `Apartamento`');
+
+    searchInput.addEventListener("keyup", () => {
+      const locais = filtrarLocais({ filter: searchInput.value });
+
+      popularInicio(locais);
+    });
+  }
+
+  window.onhashchange = (event) => {
+    event.preventDefault();
     navegarViaAjax(location.hash);
   };
 
@@ -106,5 +169,6 @@
     configurarLinks();
     await navegacaoInicial();
     await setarLocalizacao();
-  }
+    addListenerFiltrar();
+  };
 })();
