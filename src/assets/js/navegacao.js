@@ -51,6 +51,7 @@
 
     if (!location.hash || location.hash === "#/inicio") {
       await popularInicio();
+      adicionarNavegacao();
     }
   }
 
@@ -209,6 +210,19 @@
 
       container.setAttribute("data-page", pagina);
     }
+
+    if (pagina <= 1) {
+      const anterior = document.getElementsByClassName("pagina-anterior")[0];
+      anterior.classList.add("desabilitado");
+    } else if (pagina >= numeroDePaginas) {
+      const proximo = document.getElementsByClassName("pagina-proximo")[0];
+      proximo.classList.add("desabilitado");
+    } else {
+      const navegadores = document.getElementsByClassName("desabilitado");
+      for (const navegador of navegadores) {
+        navegador.classList.remove("desabilitado");
+      }
+    }
   }
 
   function adicionarNavegacao() {
@@ -224,6 +238,7 @@
     const anterior = document.createElement("li");
     anterior.addEventListener("click", () => navegarPagina(-1));
     anterior.classList.add("pagina-anterior");
+    anterior.classList.add("desabilitado");
     const proximo = document.createElement("li");
     proximo.addEventListener("click", () => navegarPagina(1));
     proximo.classList.add("pagina-proximo");
@@ -257,6 +272,5 @@
     await navegacaoInicial();
     await setarLocalizacao();
     addListenerFiltrar();
-    adicionarNavegacao();
   };
 })();

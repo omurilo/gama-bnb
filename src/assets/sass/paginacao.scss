@@ -7,13 +7,19 @@
 .paginacao ul li{
   display: inline;
   padding: 15px;
-  border: 1px solid #ccc;
+  border: 1px solid $cor-cinza;
   cursor: pointer;
 }
 
 .paginacao ul li:hover {
   background: $gradiente-1;
   color: $cor-branca;
+}
+
+.paginacao .desabilitado:hover {
+  cursor: not-allowed;
+  background: initial;
+  color: initial;
 }
 
 .paginacao .pagina-anterior {
@@ -46,4 +52,6 @@
 .paginacao .pagina-selecionada{
   background: $gradiente-3;
   color: $cor-branca;
+  border: 0;
+  padding: 16px;
 }
